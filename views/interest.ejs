@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular-sanitize.js"></script>
+
+	<script src="angularjs/interest.js"></script>
+  <head>
+    <title>New Interest</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+	  <body class="" ng-app="interestPage" ng-controller="interestPageController" style="padding-top: 100px; background-color:#edf0f5" ng-init="uname=<%= username %>; msg=<%= message %>">
+	  	<div ng-include src="'header.html'"></div>
+
+    <div class="container">
+    	<div class="col-md-12">
+    		<form method="post" action="/createInterest" validate>
+    <table >
+        <tbody style="background-color:white">
+        <tr>
+            <td colspan="3" class="col-md-4">
+                <h3>{{msg}}</h3>
+                
+            </td>
+        </tr>
+        <tr> 
+            <td class="col-md-4">Interest Title</td>
+            <td> <input type="text" name="title" required style="margin-bottom:10px"/> </td>
+        </tr>
+        <tr>
+            <td class="col-md-4">Interest Description</td>
+            <td><input type="text" name="description" style="margin-bottom:10px"/> </td>
+        </tr>
+        <!-- <tr>
+            <td class="col-md-4 pull-top" >Interest Type</td>
+            <td><input type="radio" name="interest_type" value="music" checked style="margin-bottom:10px"/> Music<br>
+        	   <input type="radio" name="interest_type" value="sports" style="margin-bottom:10px"/> Sports<br>
+        	   <input type="radio" name="interest_type" value="movies" style="margin-bottom:10px"/> Movies<br>
+        	   <input type="radio" name="interest_type" value="shows" style="margin-bottom:10px"/> Shows<br>
+        	   <input type="radio" name="interest_type" value="books" style="margin-bottom:10px"/> Books <br>
+            </td>
+        </tr> -->
+        <tr>
+            <td class="col-md-4 pull-top" >Interest Type</td>
+            <td>
+                <select name="interest_type" style="margin-bottom:10px; width: 180px; height: 23px" class="form-control">
+                    <option>Music</option>
+                    <option>Movies</option>
+                    <option>Sports</option>
+                    <option>Shows</option>
+                    <option>Books</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><br></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr >
+            <td><input class="btn btn-default btn-xs pull-right"  type="submit" value="Create" style="margin-right:15px; margin-top:10px; background-color:#3B5998; color:white;"/> </td>
+            <td><input class="btn btn-default btn-xs" type="reset" value="Clear" style="margin-top:10px"/> </td>
+        </tr>
+    </tfoot>
+        
+    </table>
+    </form> 
+			</div>
+    </div>
+	 </body>
+  </html>

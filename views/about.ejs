@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+  <body style="padding-top: 80px; background-color:#edf0f5">
+    <% if (loggedIn==true) {%>
+    <header>
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:#3B5998">
+        <div class="container">
+          <div class="navbar-header navbar-nav col-md-12">
+            <h3 style="margin-right:10px; color:white">Welcome <%= username %>
+            <div class="dropdown pull-right" style="top-margin:0px">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu_header" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="background-color:#3B5998; border: none;">
+              <span class="caret" style="border-width: 8px;"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu_header">
+              <li><a href="/groups">Groups</a></li>
+              <li><a href="/createInterest">Create Page/Interest</a></li>
+              <li><a href="/getAbout">About Us</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+            <button class="btn btn-default pull-right" style="margin-right:15px; background-color:#3B5998; border: none;"><a style=" text-decoration:none; color:white" href="/userNewsFeed">Home</a></button>
+            <button class="btn btn-default pull-right" style="margin-right:15px; background-color:#3B5998; border: none;"><a style="background-color:#3B5998; text-decoration:none; ; color:white" href="/login" ><%= username%></a></button>
+
+            <form method="get" action="/searchQuery" class="navbar-form navbar-right" role="search" style="margin-top:0px">
+                  <div class="form-group" style="margin-right:15px">
+                     <input type="text" class="form-control" name="searchQuery" placeholder="Search MyFacebook" >
+                     <button type="submit" class="btn btn-default " style="margin-left:0px"><span class="glyphicon glyphicon-search"></span></button>
+                   </div>
+               </form>
+
+          </div>
+        </div>
+      </nav>
+    </header> 
+    <% } else { %>
+  <header>
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color:#3B5998">
+        <div class="container">
+          <div class="navbar-header ">
+            <h3 style="margin-right:10px; color:white">MyFacebook </h3>
+          </div>
+
+            <form class="navbar-form navbar-right" role="search" method="post" action="/login" validate style="margin-right:10px">
+                    <div class="form-group">
+                       <p style="color:white; margin-bottom:2px">Email</p>
+                        <input required type="email" name="username" style="height:23px; width:150px; font-size:14px; margin-right:10px; background-color:white;" placeholder="Username/Email">
+                    </div>
+                    <div class="form-group">
+                      <p style="color:white; margin-bottom:2px">Password</p>
+                        <input required type="password" name="password" style="height:23px; width:150px; font-size:14px; margin-right:10px; background-color:white;" placeholder="Password">
+                    </div>                  
+                    <button type="submit" class="btn btn-default btn-xs" style="margin-top:22px; background-color:#3B5998; border-color: white; color:white;">Sign In</button>
+                </form>                
+          </div>
+        </div>
+      </nav>
+    </header> 
+<% }%>
+  <div class="row">
+    <div class="container">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <td colspan="2" style="font-size:14px; font-color:white; font-weight:bold">
+                About MyFacebook
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Profile Page
+              </td>
+              <td>
+                View all your data in one page. Appears when you login. Can access it from anywhere in the portal by clicking on your name in the MyFacebook header.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Friends
+              </td>
+              <td>
+                One can make friends my sending them friend requests (and off-course waiting for them to accept it). You can view your friends in the Friends section on your profile page. You can also view all the friend requests you have recieved till date and not responded to. If you do not know any user, you can decline his friend request. If you do not like any friend, you can unfriend anytime and later on go back being friends with him again. You know how friendship work, with ups and downs. You can search Friends using the search bar.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Profile
+              </td>
+              <td>
+                Edit your profile as and when you want. Add life events talking about important milestones in your life. All of these would be visible to your friends
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Posts
+              </td>
+              <td>
+                User can create posts talking about what is on his mind from his Profile Page and News Feed Page (Home). These posts will be visible to his friends on his timeline and will also appear in their Newsfeed. One can keep track of what his friends are upto at any given time. Exciting, isn't it?
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Interests
+              </td>
+              <td>
+                Like any Movie, Music Artist, Music Band, Music Track, Book, Sports Player, Sports club, Book, Author..The list could go on. Well go to your Interest section and update your profile to tell friends about your tastes. Search/Add/Delete any interest you need. If your interest is not available with us, we apologize for that. But you can spare a few seconds and create one for yourself and everyone. Check this option in the menu on the right corner on the MyFacebook Header. You can view your friends interests in his/her profile page.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Groups
+              </td>
+              <td>
+                You can create groups for a specific cause. Group for your office colleagues, for family members, for friend groups, for batch-mates, for fan following, for coffee lovers..and this will never end. Access your groups page using the option in the menu on the right corner on the MyFacebook Header. You can create new groups and add members the group. Well, you also have the liberty to update group details, add/remove members and also delete the group that you once created. The page displays groups you have created, groups you are a member of and new group suggestions for you. Access any group detail by clicking of the group
+              </td>
+            </tr>
+            <tr>
+              <td>
+                MyFacebook Search
+              </td>
+              <td>
+                Check this option in the centre of MyFacebook Header. Does a match for all the users (firstname/lastname) and groups against the name you type. 
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Data privacy
+              </td>
+              <td>
+                All data shared with MyFacebook is secure. We respect your privacy and always will. Thank-you for your confidence in us. 
+              </td>
+            </tr>
+            
+            
+            
+            
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

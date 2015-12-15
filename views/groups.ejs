@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular-sanitize.js"></script>
+
+	<script src="angularjs/groups.js"></script>
+  <head>
+    <title>Home Page</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body class="" ng-app="groupsPage" ng-controller="groupsPageController" style="padding-top: 100px;background-color:#edf0f5" ng-init="tab=1; uname=<%= username %>; loadUserGroupData();">
+    <div ng-include src="'header.html'"></div>
+
+    <div class="container" >
+		<ul class="nav nav-tabs nav-justified dropup" style="background-color:white"> 
+			<li ng-class="{active:tab===1}"><a href="#Home" ng-click="tab=1" data-toggle="tab" style="color:#3B5998; font-weight: bold;">Create Group<span ng-show="tab===1" class="caret" style="border-width: 5px;"></a></li>
+			<li ng-class="{active:tab===2}"><a ng-click="tab=2" href="" data-toggle="tab" style="color:#3B5998; font-weight: bold;">Your Groups<span ng-show="tab===2" class="caret" style="border-width: 5px;"></a></li>
+			<li ng-class="{active:tab===3}"><a ng-click="tab=3" href="#Friends" data-toggle="tab" style="color:#3B5998; font-weight: bold;">Your Other Groups<span ng-show="tab===3" class="caret" style="border-width: 5px;"></a></li>
+			<li ng-class="{active:tab===4}"><a ng-click="tab=4" href="" data-toggle="tab" style="color:#3B5998; font-weight: bold;">Friends Groups<span ng-show="tab===4" class="caret" style="border-width:5px;"></a></li>
+		</ul>    	
+    
+	    <div class="tab tab-content" style="background-color:white">
+		    <div class="tab-pane" ng-class="{active:tab===1}" style="margin-bottom: 10px;" id="CreateGroup">
+			    <table class="table" >
+				 	<thead>
+				 		<tr>
+				 			<td colspan="2">Create New Group</td>
+				 		</tr>
+				 	</thead>
+				 	<tbody>
+				 		<form class="form-group" name="createGroupForm" validate>
+				 		<tr>
+				 			<td>Group Name</td>
+				 			<td>
+				 				<input type="text" style="font-weight: normal" class="form-control" name="groupname" form="createGroupForm" ng-model="newGroup.groupname" required wrap="soft"><br>
+				 				<label ng-show="noGroupNameError" class="alert alert-danger" style="width:100%; line-height:0px;">{{noGroupNameError}}</label>
+				 				<!-- <div ng-show="noGroupNameError" class="alert alert-danger" role="alert">{{noGroupNameError}}</div> -->
+				 			</td>
+				 		</tr>
+				 		<tr>
+				 			<td>Description</td>
+				 			<td>
+				 				<textarea  style="font-weight: normal" class="form-control" name="groupdesc" form="createGroupForm" ng-model="newGroup.groupdesc" required> </textarea>
+				 			</td>
+				 		</tr>
+				 		<tr>
+				 			<td>Add Members</td>
+				 			<td>
+				               <input type="text" class="" ng-model="userName" placeholder="Search" style="margin-right:10px">
+				               <button ng-click="searchUser(userName)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search"></span></button>
+				               <ul ng-repeat="user in userList" class="list-unstyled">
+				               		<li ><a ng-click="addUser(user)" ng-show="membersIds.indexOf(user.userid)==-1" style="color:#3B5998; font-weight: bold;">{{user.firstname}} {{user.lastname}}</a></li>
+				               </ul>
+				               <div ng-show="members[0]">
+				               Added members:
+				               <ul ng-repeat="user in members" class="list-unstyled">
+				               		<li ><a ng-click="removeUser(user)" ng-model="members" value="user" style="color:#3B5998; font-weight: bold;">{{user.firstname}} {{user.lastname}}</a></li>
+				               </ul>
+				               </div>
+				 			</td>
+				 		</tr>
+				 	</tbody>
+				 	<tfoot style="background-color:#edf0f5">
+				 		<tr>
+				 			<td colspan="2">
+				 				<input type="submit" value="Create" class="btn btn-sm btn-default pull-right" style="background-color:#3B5998; border: 1; color: white; width: 60px, margin-right:15px" ng-click="createGroup()">
+				 				<input type="button" value="Cancel" class="btn btn-sm btn-default pull-right" style="margin-right:15px" ng-click="resetCreate()">
+				 			</td>
+				 		</tr>
+				 	</tfoot>
+				 	</form>
+				</table>
+			</div>			 
+			<div class="tab-pane" ng-class="{active:tab===2}" style="margin-bottom: 10px; background-color:white" id="Friends">
+				<div>
+					<p ng-hide="userGroupList[0]">No groups created by you</p>
+					<table class="table" ng-show="userGroupList[0]">
+						<thead>
+							<tr>
+								<th>Groups you created</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr>
+								<td style="font-weight: normal">
+									Search <input type="text" ng-model="SearchMyGroup" placeholder="Search your Groups"> 
+								</td>
+							</tr>			
+							<tr class="form-group" ng-repeat="group in userGroupList| filter:SearchMyGroup">
+								<td>
+						 			<a class="text-left" href="/groupProfile?groupId={{group._id}}" style="color:#3B5998; font-weight: bold;">{{group.groupname}}</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="tab-pane" ng-class="{active:tab===3}" style="margin-bottom: 10px; background-color:white" id="Friends">
+				<table class="table" ng-show="otherGroupList[0]">
+					<thead>
+						<tr>
+							<th>Groups joined as a member</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="font-weight: normal">
+								Search <input type="text" ng-model="SearchGroup" placeholder="Search your other Groups"> 
+							</td>
+						</tr>						
+							<tr class="form-group" ng-repeat="group in otherGroupList| filter:SearchGroup" >
+								<td>
+						 			<a class="text-left" href="/groupProfile?groupId={{group._id}}" style="color:#3B5998; font-weight: bold;">{{group.groupname}}</a>
+								</td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="tab-pane" ng-class="{active:tab===4}" style="margin-bottom: 10px;background-color:white" id="FriendsGroups">
+				<div>
+					<p ng-hide="friendGroupList[0]">No groups suggestions for you</p>
+					<table class="table" ng-show="userGroupList[0]">
+						<thead>
+							<tr>
+								<th>Friend's Groups</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td style="font-weight: normal">
+								Search <input type="text" ng-model="FriendGroupSet" placeholder="Search your friends groups"> 
+							</td>
+						</tr>				
+							<tr class="form-group" ng-repeat="group in friendGroupList| filter:FriendGroupSet">
+								<td>
+						 			<a class="text-left" href="/groupProfile?groupId={{group._id}}" style="color:#3B5998; font-weight: bold;">{{group.groupname}}</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+  </body>
+
+</html>
